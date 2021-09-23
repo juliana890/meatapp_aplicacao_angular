@@ -14,7 +14,9 @@ export class RestaurantsComponent implements OnInit {
 
   //Este método carrega os components ao iniciar a tela
   ngOnInit() {
-    this.restaurants = this.restaurantService.restaurants();
+    //Agora podemos chamar nosso método do serviço com subscribe atribuindo a resposta('response') ao nosso array de restaurants
+    this.restaurantService.restaurants()
+      .subscribe(response => this.restaurants = response);
   }
 
 }

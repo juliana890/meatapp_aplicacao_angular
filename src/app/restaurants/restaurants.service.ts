@@ -1,29 +1,20 @@
+import { Injectable } from "@angular/core";
 import { Restaurant } from "./restaurant/restaurant.model";
+import { MEAT_API } from "app/app.api";
+import { Http } from "@angular/http"; 
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/operator/map';
 
+//Pra uma classe de serviço receber outra classe de serviço por injeção de depêndencia utilizamos o Injectable()
+@Injectable()
 export class RestaurantsService{
     
-    constructor(){}
+    constructor(private http: Http){}
 
-    rests: Restaurant[] = [
-        {
-          id: "bread-bakery",
-          name: "Bread & Bakery",
-          category: "Bakery",
-          deliveryEstimate: "25m",
-          rating: 4.9,
-          imagePath: "assets/img/restaurants/breadbakery.png"
-        },
-        {
-          id: "burger-house",
-          name: "Burger House",
-          category: "Hamburgers",
-          deliveryEstimate: "100m",
-          rating: 3.5,
-          imagePath: "assets/img/restaurants/burgerhouse.png"
-        }
-      ];
-
-    restaurants(): Restaurant[] {
-        return this.rests;
+    //O http retorna um Observable por isso passamos o tipo como Restaurant
+    restaurants(): Observable<Restaurant[]> {
+        //Mapeamos a resposta para podermos trocar para um json
+        return this.http.get(`${MEAT_API}/restaurants`)
+            .map(response => response.json());
     }
 }
