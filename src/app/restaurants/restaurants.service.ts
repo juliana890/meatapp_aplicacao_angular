@@ -4,6 +4,8 @@ import { MEAT_API } from "app/app.api";
 import { Http } from "@angular/http"; 
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { ErrorHandler } from "app/app.error-handler";
 
 //Pra uma classe de serviço receber outra classe de serviço por injeção de depêndencia utilizamos o Injectable()
 @Injectable()
@@ -15,6 +17,7 @@ export class RestaurantsService{
     restaurants(): Observable<Restaurant[]> {
         //Mapeamos a resposta para podermos trocar para um json
         return this.http.get(`${MEAT_API}/restaurants`)
-            .map(response => response.json());
+            .map(response => response.json())
+            .catch(ErrorHandler.handleError);
     }
 }
